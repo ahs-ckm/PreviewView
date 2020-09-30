@@ -1,0 +1,1751 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.oceaninformatics.org/OPTWS" xmlns:s1="openEHR/v1/Template" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s2="http://schemas.openehr.org/v1" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://www.oceaninformatics.org/OPTWS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.oceaninformatics.org/OPTWS">
+      <s:import namespace="openEHR/v1/Template" />
+      <s:import namespace="http://schemas.openehr.org/v1" />
+      <s:element name="BuildOperationalTemplate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:template" />
+            <s:element minOccurs="0" maxOccurs="1" name="archetypes" type="tns:ArrayOfARCHETYPE" />
+            <s:element minOccurs="0" maxOccurs="1" name="embeddedTemplates" type="tns:ArrayOfTEMPLATE" />
+            <s:element minOccurs="0" maxOccurs="1" name="language" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="checkIntegrity" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfARCHETYPE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ARCHETYPE" nillable="true" type="s2:ARCHETYPE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfTEMPLATE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TEMPLATE" nillable="true" type="s1:TEMPLATE" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BuildOperationalTemplateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s2:template" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuildOperationalTemplateAdl">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s1:template" />
+            <s:element minOccurs="0" maxOccurs="1" name="archetypes" type="tns:ArrayOfString" />
+            <s:element minOccurs="0" maxOccurs="1" name="embeddedTemplates" type="tns:ArrayOfTEMPLATE" />
+            <s:element minOccurs="0" maxOccurs="1" name="language" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="checkIntegrity" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="BuildOperationalTemplateAdlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s2:template" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MD5HashFromAdl">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="adl" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MD5HashFromAdlResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MD5HashFromAdlResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MD5HashFromXmlArchetype">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" ref="s2:archetype" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="MD5HashFromXmlArchetypeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="MD5HashFromXmlArchetypeResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="openEHR/v1/Template">
+      <s:element name="template" type="s1:TEMPLATE" />
+      <s:complexType name="TEMPLATE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s1:RESOURCE_DESCRIPTION" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="annotations" type="s1:RESOURCE_ANNOTATIONS" />
+          <s:element minOccurs="0" maxOccurs="1" name="definition" type="s1:archetyped" />
+          <s:element minOccurs="0" maxOccurs="1" name="view" type="s1:ArrayOfT_VIEWConstraints" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="integrity_checks" type="s1:ObjectIntegrity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RESOURCE_DESCRIPTION">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="original_author" type="s1:ArrayOfDictionaryItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="other_contributors" type="s1:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="lifecycle_state" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="details" type="s1:RESOURCE_DESCRIPTION_ITEM" />
+          <s:element minOccurs="0" maxOccurs="1" name="resource_package_uri" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="other_details" type="s1:ArrayOfDictionaryItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfDictionaryItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="item" type="s1:dictionaryItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="dictionaryItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfString">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="item" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RESOURCE_DESCRIPTION_ITEM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="purpose" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="keywords" type="s1:ArrayOfString" />
+          <s:element minOccurs="0" maxOccurs="1" name="use" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="misuse" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="copyright" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="original_resource_uri" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="other_details" type="s1:ArrayOfDictionaryItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="RESOURCE_ANNOTATIONS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="items" type="s1:ArrayOfDictionaryAnyItem" />
+        </s:sequence>
+        <s:attribute name="path" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfDictionaryAnyItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="item" type="s1:dictionaryAnyItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="dictionaryAnyItem">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          <s:choice minOccurs="1" maxOccurs="1">
+            <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+            <s:any minOccurs="0" maxOccurs="1" />
+          </s:choice>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="archetyped" abstract="true">
+        <s:attribute name="archetype_id" type="s:string" />
+        <s:attribute default="false" name="from_template" type="s:boolean" />
+        <s:attribute name="template_id" type="s:string" />
+        <s:attribute name="concept_name" type="s:string" />
+      </s:complexType>
+      <s:complexType name="COMPOSITION">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:archetyped">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Content" type="s1:content_item" />
+              <s:element minOccurs="0" maxOccurs="1" name="Context" type="s1:EVENT_CONTEXT" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Rule" type="s1:statement" />
+            </s:sequence>
+            <s:attribute name="name" type="s:string" />
+            <s:attribute name="hide_on_form" type="s:boolean" />
+            <s:attribute name="annotation" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="content_item" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:archetyped">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Rule" type="s1:statement" />
+              <s:element minOccurs="0" maxOccurs="1" name="Conditional" type="s1:condition" />
+            </s:sequence>
+            <s:attribute name="max" type="s:integer" />
+            <s:attribute name="min" type="s:integer" />
+            <s:attribute name="path" type="s:string" />
+            <s:attribute name="name" type="s:string" />
+            <s:attribute name="hide_on_form" type="s:boolean" />
+            <s:attribute name="annotation" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="statement">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="queryId" type="s1:binding" />
+          <s:element minOccurs="0" maxOccurs="1" name="constraint" type="s1:valueConstraint" />
+          <s:element minOccurs="0" maxOccurs="1" name="nameConstraint" type="s1:textConstraint" />
+          <s:element minOccurs="0" maxOccurs="1" name="eventConstraint" type="s1:eventType" />
+          <s:element minOccurs="0" maxOccurs="1" name="conditionalNode" type="s1:condition" />
+          <s:element minOccurs="0" maxOccurs="1" name="nullFlavourConstraint" type="s1:textConstraint" />
+        </s:sequence>
+        <s:attribute name="path" type="s:string" />
+        <s:attribute name="max" type="s:integer" />
+        <s:attribute name="min" type="s:integer" />
+        <s:attribute name="exclusive" type="s:boolean" />
+        <s:attribute name="default" type="s:string" />
+        <s:attribute name="hide_on_form" type="s:boolean" />
+        <s:attribute name="clone" type="s:boolean" />
+        <s:attribute name="name" type="s:string" />
+        <s:attribute name="annotation" type="s:string" />
+      </s:complexType>
+      <s:complexType name="binding">
+        <s:attribute name="terminologyID" type="s:string" />
+        <s:attribute name="terminologyLang" type="s:string" />
+        <s:attribute name="queryName" type="s:string" />
+      </s:complexType>
+      <s:complexType name="valueConstraint" abstract="true">
+        <s:attribute name="valueType" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ordinalConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="includedValues" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="excludedValues" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="textConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="termQueryId" type="s1:binding" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="includedValues" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="excludedValues" type="s:string" />
+            </s:sequence>
+            <s:attribute default="true" name="limitToList" type="s:boolean" />
+            <s:attribute default="true" name="allowTerminologyLookUp" type="s:boolean" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="dateConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="maxDateTime" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="minDateTime" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="quantityConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="includedUnits" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="excludedUnits" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="unitMagnitude" type="s1:quantityUnitConstraint" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="quantityUnitConstraint">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="unit" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="maxMagnitude" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="minMagnitude" type="s:double" />
+          <s:element minOccurs="0" maxOccurs="1" name="precision" type="s:integer" />
+          <s:element minOccurs="1" maxOccurs="1" name="includesMaximum" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="includesMinimum" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="durationConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="maxMagnitude" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="minMagnitude" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="includesMaximum" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="includesMinimum" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="countConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="maxMagnitude" type="s:integer" />
+              <s:element minOccurs="0" maxOccurs="1" name="minMagnitude" type="s:integer" />
+              <s:element minOccurs="1" maxOccurs="1" name="includesMaximum" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="includesMinimum" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="parsableConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="includedValues" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="excludedValues" type="s:string" />
+            </s:sequence>
+            <s:attribute default="false" name="limitToList" type="s:boolean" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="multipleConstraint">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:valueConstraint">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="includedTypes" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="valueTypeConstraints" type="s1:valueConstraint" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="eventType">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="allowedType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="widthOrOffset" type="s:duration" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="includedAggregations" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="condition">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="minimumAgeYears" type="s:positiveInteger" />
+          <s:element minOccurs="0" maxOccurs="1" name="maximumAgeYears" type="s:positiveInteger" />
+          <s:element minOccurs="0" maxOccurs="1" name="gender" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="archetypeValue" type="s1:dependentCondition" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="dependentCondition">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="valueAsString" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ENTRY" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:content_item">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="SubjectOfCare" type="s1:textConstraint" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="other_participation" type="s1:PARTICIPATION" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Items" type="s1:ITEM" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PARTICIPATION">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="participationName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="function" type="s1:textConstraint" />
+          <s:element minOccurs="1" maxOccurs="1" name="timingRequired" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="mode" type="s1:textConstraint" />
+          <s:element minOccurs="0" maxOccurs="1" name="performer" type="s1:PARTY" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PARTY">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="externalRefRequired" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="partyName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="partyIdentifier" type="s1:dvIdentifier" />
+          <s:element minOccurs="0" maxOccurs="1" name="partyRelationship" type="s1:textConstraint" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="dvIdentifier">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="identiferIssuer" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="identifierType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="identiferAssigner" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ITEM" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:archetyped">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Rule" type="s1:statement" />
+              <s:element minOccurs="0" maxOccurs="1" name="nameConstraint" type="s1:textConstraint" />
+              <s:element minOccurs="0" maxOccurs="1" name="Conditional" type="s1:condition" />
+            </s:sequence>
+            <s:attribute name="max" type="s:integer" />
+            <s:attribute name="min" type="s:integer" />
+            <s:attribute name="path" type="s:string" />
+            <s:attribute name="name" type="s:string" />
+            <s:attribute name="hide_on_form" type="s:boolean" />
+            <s:attribute name="annotation" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CLUSTER">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ITEM">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Items" type="s1:ITEM" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ELEMENT">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ITEM">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="datavalueConstraint" type="s1:valueConstraint" />
+              <s:element minOccurs="0" maxOccurs="1" name="nullFlavorConstraint" type="s1:textConstraint" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OBSERVATION">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ENTRY" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ADMIN_ENTRY">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ENTRY" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="EVALUATION">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ENTRY" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ACTION">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ENTRY">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="description" type="s1:ITEM_STRUCTURE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ITEM_STRUCTURE" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:archetyped">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Items" type="s1:ITEM" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Rule" type="s1:statement" />
+            </s:sequence>
+            <s:attribute name="max" type="s:integer" />
+            <s:attribute name="min" type="s:integer" />
+            <s:attribute name="path" type="s:string" />
+            <s:attribute name="name" type="s:string" />
+            <s:attribute name="hide_on_form" type="s:boolean" />
+            <s:attribute name="annotation" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ITEM_SINGLE">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ITEM_STRUCTURE" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ITEM_TABLE">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ITEM_STRUCTURE" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ITEM_LIST">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ITEM_STRUCTURE" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ITEM_TREE">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ITEM_STRUCTURE" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="INSTRUCTION">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ENTRY">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="activityDescription" type="s1:ITEM_STRUCTURE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="SECTION">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:content_item">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="Item" type="s1:content_item" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="EVENT_CONTEXT">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="OtherContext" type="s1:ITEM_STRUCTURE" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="participation" type="s1:PARTICIPATION" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Items" type="s1:ITEM" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Rule" type="s1:statement" />
+          <s:element minOccurs="0" maxOccurs="1" name="hide_on_form" type="s:boolean" />
+        </s:sequence>
+        <s:attribute name="annotation" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfT_VIEWConstraints">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="constraints">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="0" maxOccurs="unbounded" name="items">
+                  <s:complexType>
+                    <s:sequence>
+                      <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+                    </s:sequence>
+                    <s:attribute name="id" type="s:string" />
+                  </s:complexType>
+                </s:element>
+              </s:sequence>
+              <s:attribute name="path" type="s:string" />
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ObjectIntegrity" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="digest">
+            <s:complexType>
+              <s:simpleContent>
+                <s:extension base="s:string">
+                  <s:attribute name="id" type="s:string" />
+                </s:extension>
+              </s:simpleContent>
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+        <s:attribute name="uid" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArchetypeIntegrity">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ObjectIntegrity">
+            <s:attribute name="archetype_id" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TemplateIntegrity">
+        <s:complexContent mixed="false">
+          <s:extension base="s1:ObjectIntegrity">
+            <s:attribute name="template_id" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.openehr.org/v1">
+      <s:complexType name="ARCHETYPE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:AUTHORED_RESOURCE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="uid" type="s2:HIER_OBJECT_ID" />
+              <s:element minOccurs="0" maxOccurs="1" name="archetype_id" type="s2:ARCHETYPE_ID" />
+              <s:element minOccurs="0" maxOccurs="1" name="adl_version" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="concept" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="parent_archetype_id" type="s2:ARCHETYPE_ID" />
+              <s:element minOccurs="0" maxOccurs="1" name="definition" type="s2:C_COMPLEX_OBJECT" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="invariants" type="s2:ASSERTION" />
+              <s:element minOccurs="0" maxOccurs="1" name="ontology" type="s2:ARCHETYPE_ONTOLOGY" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="AUTHORED_RESOURCE" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="original_language" type="s2:CODE_PHRASE" />
+          <s:element minOccurs="0" maxOccurs="1" name="is_controlled" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s2:RESOURCE_DESCRIPTION" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="translations" type="s2:TRANSLATION_DETAILS" />
+          <s:element minOccurs="0" maxOccurs="1" name="revision_history" type="s2:ArrayOfREVISION_HISTORY_ITEM" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CODE_PHRASE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="terminology_id" type="s2:TERMINOLOGY_ID" />
+          <s:element minOccurs="0" maxOccurs="1" name="code_string" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TERMINOLOGY_ID">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_ID" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OBJECT_ID" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="value" type="s:token" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="GENERIC_ID">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_ID">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="scheme" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ARCHETYPE_ID">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_ID" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TEMPLATE_ID">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_ID" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="UID_BASED_ID" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_ID" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="HIER_OBJECT_ID">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:UID_BASED_ID" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OBJECT_VERSION_ID">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:UID_BASED_ID" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="RESOURCE_DESCRIPTION">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="original_author" type="s2:StringDictionaryItem" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="other_contributors" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="lifecycle_state" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="resource_package_uri" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="other_details" type="s2:StringDictionaryItem" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="details" type="s2:RESOURCE_DESCRIPTION_ITEM" />
+          <s:element minOccurs="0" maxOccurs="1" name="parent_resource" type="s2:AUTHORED_RESOURCE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="StringDictionaryItem">
+        <s:simpleContent>
+          <s:extension base="s:string">
+            <s:attribute name="id" type="s:string" />
+          </s:extension>
+        </s:simpleContent>
+      </s:complexType>
+      <s:complexType name="RESOURCE_DESCRIPTION_ITEM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="language" type="s2:CODE_PHRASE" />
+          <s:element minOccurs="0" maxOccurs="1" name="purpose" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="keywords" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="use" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="misuse" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="copyright" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="original_resource_uri" type="s2:StringDictionaryItem" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="other_details" type="s2:StringDictionaryItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TRANSLATION_DETAILS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="language" type="s2:CODE_PHRASE" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="author" type="s2:StringDictionaryItem" />
+          <s:element minOccurs="0" maxOccurs="1" name="accreditation" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="other_details" type="s2:StringDictionaryItem" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfREVISION_HISTORY_ITEM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:REVISION_HISTORY_ITEM" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="REVISION_HISTORY_ITEM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="version_id" type="s2:OBJECT_VERSION_ID" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="audits" type="s2:AUDIT_DETAILS" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="AUDIT_DETAILS">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="system_id" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="committer" type="s2:PARTY_PROXY" />
+          <s:element minOccurs="0" maxOccurs="1" name="time_committed" type="s2:DV_DATE_TIME" />
+          <s:element minOccurs="0" maxOccurs="1" name="change_type" type="s2:DV_CODED_TEXT" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s2:DV_TEXT" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PARTY_PROXY" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="external_ref" type="s2:PARTY_REF" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PARTY_REF">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_REF" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OBJECT_REF">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="id" type="s2:OBJECT_ID" />
+          <s:element minOccurs="0" maxOccurs="1" name="namespace" type="s:token" />
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s:token" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ACCESS_GROUP_REF">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_REF" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="LOCATABLE_REF">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:OBJECT_REF">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="path" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PARTY_IDENTIFIED">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:PARTY_PROXY">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="identifiers" type="s2:DV_IDENTIFIER" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_IDENTIFIER">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="issuer" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="assigner" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DATA_VALUE" abstract="true" />
+      <s:complexType name="DV_PARAGRAPH">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:DV_TEXT" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_TEXT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="hyperlink" type="s2:DV_URI" />
+              <s:element minOccurs="0" maxOccurs="1" name="formatting" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="mappings" type="s2:TERM_MAPPING" />
+              <s:element minOccurs="0" maxOccurs="1" name="language" type="s2:CODE_PHRASE" />
+              <s:element minOccurs="0" maxOccurs="1" name="encoding" type="s2:CODE_PHRASE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_URI">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s:anyURI" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_EHR_URI">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_URI" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TERM_MAPPING">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="match" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="purpose" type="s2:DV_CODED_TEXT" />
+          <s:element minOccurs="0" maxOccurs="1" name="target" type="s2:CODE_PHRASE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DV_CODED_TEXT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_TEXT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="defining_code" type="s2:CODE_PHRASE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_TIME_SPECIFICATION" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s2:DV_PARSABLE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_PARSABLE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_ENCAPSULATED">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="formalism" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_ENCAPSULATED" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="charset" type="s2:CODE_PHRASE" />
+              <s:element minOccurs="0" maxOccurs="1" name="language" type="s2:CODE_PHRASE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_MULTIMEDIA">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_ENCAPSULATED">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="alternate_text" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="uri" type="s2:DV_URI" />
+              <s:element minOccurs="0" maxOccurs="1" name="data" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="media_type" type="s2:CODE_PHRASE" />
+              <s:element minOccurs="0" maxOccurs="1" name="compression_algorithm" type="s2:CODE_PHRASE" />
+              <s:element minOccurs="0" maxOccurs="1" name="integrity_check" type="s:base64Binary" />
+              <s:element minOccurs="0" maxOccurs="1" name="integrity_check_algorithm" type="s2:CODE_PHRASE" />
+              <s:element minOccurs="1" maxOccurs="1" name="size" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="thumbnail" type="s2:DV_MULTIMEDIA" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_PERIODIC_TIME_SPECIFICATION">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_TIME_SPECIFICATION" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_GENERAL_TIME_SPECIFICATION">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_TIME_SPECIFICATION" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_BOOLEAN">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="value" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_STATE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s2:DV_CODED_TEXT" />
+              <s:element minOccurs="1" maxOccurs="1" name="is_terminal" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_INTERVAL">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="lower" type="s2:DV_ORDERED" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper" type="s2:DV_ORDERED" />
+              <s:element minOccurs="0" maxOccurs="1" name="lower_included" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper_included" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="lower_unbounded" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="upper_unbounded" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_ORDERED" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DATA_VALUE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="normal_range" type="s2:DV_INTERVAL" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="other_reference_ranges" type="s2:REFERENCE_RANGE" />
+              <s:element minOccurs="0" maxOccurs="1" name="normal_status" type="s2:CODE_PHRASE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="REFERENCE_RANGE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="meaning" type="s2:DV_TEXT" />
+          <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:DV_INTERVAL" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DV_QUANTIFIED" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_ORDERED">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="magnitude_status">
+                <s:simpleType>
+                  <s:restriction base="s:string">
+                    <s:enumeration value="=" />
+                    <s:enumeration value="&lt;" />
+                    <s:enumeration value="&lt;=" />
+                    <s:enumeration value="&gt;" />
+                    <s:enumeration value="&gt;=" />
+                    <s:enumeration value="~" />
+                  </s:restriction>
+                </s:simpleType>
+              </s:element>
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_AMOUNT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_QUANTIFIED">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" default="-1" name="accuracy" type="s:float" />
+              <s:element minOccurs="0" maxOccurs="1" name="accuracy_is_percent" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_QUANTITY">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_AMOUNT">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="magnitude" type="s:double" />
+              <s:element minOccurs="0" maxOccurs="1" name="units" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" default="-1" name="precision" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_PROPORTION">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_AMOUNT">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="numerator" type="s:float" />
+              <s:element minOccurs="1" maxOccurs="1" name="denominator" type="s:float" />
+              <s:element minOccurs="1" maxOccurs="1" name="type" type="s2:PROPORTION_KIND" />
+              <s:element minOccurs="0" maxOccurs="1" default="-1" name="precision" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="PROPORTION_KIND">
+        <s:restriction base="s:string">
+          <s:enumeration value="0" />
+          <s:enumeration value="1" />
+          <s:enumeration value="2" />
+          <s:enumeration value="3" />
+          <s:enumeration value="4" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="DV_DURATION">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_AMOUNT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_COUNT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_AMOUNT">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="magnitude" type="s:long" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_TEMPORAL">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_QUANTIFIED">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="accuracy" type="s2:DV_DURATION" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_DATE_TIME">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_TEMPORAL">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_TIME">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_TEMPORAL">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_DATE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_TEMPORAL">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="DV_ORDINAL">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:DV_ORDERED">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="value" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="symbol" type="s2:DV_CODED_TEXT" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PARTY_RELATED">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:PARTY_IDENTIFIED">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="relationship" type="s2:DV_CODED_TEXT" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PARTY_SELF">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:PARTY_PROXY" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ATTESTATION">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:AUDIT_DETAILS">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="attested_view" type="s2:DV_MULTIMEDIA" />
+              <s:element minOccurs="0" maxOccurs="1" name="proof" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:DV_EHR_URI" />
+              <s:element minOccurs="0" maxOccurs="1" name="reason" type="s2:DV_TEXT" />
+              <s:element minOccurs="1" maxOccurs="1" name="is_pending" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_COMPLEX_OBJECT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_DEFINED_OBJECT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="attributes" type="s2:C_ATTRIBUTE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_DEFINED_OBJECT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_OBJECT" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_OBJECT" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:ARCHETYPE_CONSTRAINT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="rm_type_name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="occurrences" type="s2:IntervalOfInteger" />
+              <s:element minOccurs="0" maxOccurs="1" name="node_id" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ARCHETYPE_CONSTRAINT" abstract="true" />
+      <s:complexType name="C_ATTRIBUTE" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:ARCHETYPE_CONSTRAINT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="rm_attribute_name" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="existence" type="s2:IntervalOfInteger" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="children" type="s2:C_OBJECT" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="IntervalOfInteger">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:Interval">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="lower" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="Interval" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="lower_included" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="upper_included" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="lower_unbounded" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="upper_unbounded" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="IntervalOfReal">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:Interval">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="lower" type="s:float" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper" type="s:float" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="IntervalOfDate">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:Interval">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="lower" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="IntervalOfDateTime">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:Interval">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="lower" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="IntervalOfTime">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:Interval">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="lower" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="IntervalOfDuration">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:Interval">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="lower" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="upper" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_MULTIPLE_ATTRIBUTE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_ATTRIBUTE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="cardinality" type="s2:CARDINALITY" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CARDINALITY">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="is_ordered" type="s:boolean" />
+          <s:element minOccurs="1" maxOccurs="1" name="is_unique" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="interval" type="s2:IntervalOfInteger" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="C_SINGLE_ATTRIBUTE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_ATTRIBUTE" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="CONSTRAINT_REF">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_OBJECT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="reference" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ARCHETYPE_INTERNAL_REF">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_OBJECT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="target_path" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ARCHETYPE_SLOT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_OBJECT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="includes" type="s2:ASSERTION" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="excludes" type="s2:ASSERTION" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ASSERTION">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="tag" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="string_expression" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="expression" type="s2:EXPR_ITEM" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="variables" type="s2:ASSERTION_VARIABLE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EXPR_ITEM" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EXPR_LEAF">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:EXPR_ITEM">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="item" />
+              <s:element minOccurs="0" maxOccurs="1" name="reference_type" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="EXPR_OPERATOR" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:EXPR_ITEM">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="operator" type="s2:OPERATOR_KIND" />
+              <s:element minOccurs="1" maxOccurs="1" name="precedence_overridden" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="OPERATOR_KIND">
+        <s:restriction base="s:string">
+          <s:enumeration value="2001" />
+          <s:enumeration value="2002" />
+          <s:enumeration value="2003" />
+          <s:enumeration value="2004" />
+          <s:enumeration value="2005" />
+          <s:enumeration value="2006" />
+          <s:enumeration value="2007" />
+          <s:enumeration value="2010" />
+          <s:enumeration value="2011" />
+          <s:enumeration value="2012" />
+          <s:enumeration value="2013" />
+          <s:enumeration value="2014" />
+          <s:enumeration value="2015" />
+          <s:enumeration value="2016" />
+          <s:enumeration value="2020" />
+          <s:enumeration value="2021" />
+          <s:enumeration value="2022" />
+          <s:enumeration value="2023" />
+          <s:enumeration value="2024" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="EXPR_BINARY_OPERATOR">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:EXPR_OPERATOR">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="left_operand" type="s2:EXPR_ITEM" />
+              <s:element minOccurs="0" maxOccurs="1" name="right_operand" type="s2:EXPR_ITEM" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="EXPR_UNARY_OPERATOR">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:EXPR_OPERATOR">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="operand" type="s2:EXPR_ITEM" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ASSERTION_VARIABLE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="definition" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="C_PRIMITIVE_OBJECT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_DEFINED_OBJECT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="item" type="s2:C_PRIMITIVE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_PRIMITIVE" abstract="true" />
+      <s:complexType name="C_STRING">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="list" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="list_open" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_INTEGER">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="list" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:IntervalOfInteger" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:int" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_DURATION">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:IntervalOfDuration" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_DATE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="timezone_validity" type="s2:VALIDITY_KIND" />
+              <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:IntervalOfDate" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:simpleType name="VALIDITY_KIND">
+        <s:restriction base="s:string">
+          <s:enumeration value="1001" />
+          <s:enumeration value="1002" />
+          <s:enumeration value="1003" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="C_DATE_TIME">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="timezone_validity" type="s2:VALIDITY_KIND" />
+              <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:IntervalOfDateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_TIME">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="pattern" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="timezone_validity" type="s2:VALIDITY_KIND" />
+              <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:IntervalOfTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_REAL">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="list" type="s:float" />
+              <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:IntervalOfReal" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:float" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_BOOLEAN">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_PRIMITIVE">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="true_valid" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="false_valid" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s:boolean" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_DOMAIN_TYPE" abstract="true">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_DEFINED_OBJECT" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_CODE_PHRASE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_DOMAIN_TYPE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s2:CODE_PHRASE" />
+              <s:element minOccurs="0" maxOccurs="1" name="terminology_id" type="s2:TERMINOLOGY_ID" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="code_list" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_CODE_REFERENCE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_CODE_PHRASE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="referenceSetUri" type="s:anyURI" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_DV_ORDINAL">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_DOMAIN_TYPE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s2:DV_ORDINAL" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="list" type="s2:DV_ORDINAL" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_DV_STATE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_DOMAIN_TYPE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s2:DV_STATE" />
+              <s:element minOccurs="0" maxOccurs="1" name="value" type="s2:ArrayOfSTATE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfSTATE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="states" type="s2:STATE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="STATE" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NON_TERMINAL_STATE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:STATE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="unbounded" name="transitions" type="s2:TRANSITION" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="TRANSITION">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="event" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="action" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="guard" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="next_state" type="s2:STATE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TERMINAL_STATE">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:STATE" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_DV_QUANTITY">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_DOMAIN_TYPE">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="assumed_value" type="s2:DV_QUANTITY" />
+              <s:element minOccurs="0" maxOccurs="1" name="property" type="s2:CODE_PHRASE" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="list" type="s2:C_QUANTITY_ITEM" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="C_QUANTITY_ITEM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="magnitude" type="s2:IntervalOfReal" />
+          <s:element minOccurs="0" maxOccurs="1" name="precision" type="s2:IntervalOfInteger" />
+          <s:element minOccurs="0" maxOccurs="1" name="units" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="C_ARCHETYPE_ROOT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_COMPLEX_OBJECT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="archetype_id" type="s2:ARCHETYPE_ID" />
+              <s:element minOccurs="0" maxOccurs="1" name="template_id" type="s2:TEMPLATE_ID" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="term_definitions" type="s2:ARCHETYPE_TERM" />
+              <s:element minOccurs="0" maxOccurs="unbounded" name="term_bindings" type="s2:TermBindingSet" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ARCHETYPE_TERM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:StringDictionaryItem" />
+        </s:sequence>
+        <s:attribute name="code" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TermBindingSet">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:TERM_BINDING_ITEM" />
+        </s:sequence>
+        <s:attribute name="terminology" type="s:string" />
+      </s:complexType>
+      <s:complexType name="TERM_BINDING_ITEM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="value" type="s2:CODE_PHRASE" />
+        </s:sequence>
+        <s:attribute name="code" type="s:string" />
+      </s:complexType>
+      <s:complexType name="T_COMPLEX_OBJECT">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:C_COMPLEX_OBJECT">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="default_value" type="s2:DATA_VALUE" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ARCHETYPE_ONTOLOGY">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="term_definitions" type="s2:CodeDefinitionSet" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="constraint_definitions" type="s2:CodeDefinitionSet" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="term_bindings" type="s2:TermBindingSet" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="constraint_bindings" type="s2:ConstraintBindingSet" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="CodeDefinitionSet">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:ARCHETYPE_TERM" />
+        </s:sequence>
+        <s:attribute name="language" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ConstraintBindingSet">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:CONSTRAINT_BINDING_ITEM" />
+        </s:sequence>
+        <s:attribute name="terminology" type="s:string" />
+      </s:complexType>
+      <s:complexType name="CONSTRAINT_BINDING_ITEM">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="value" type="s:anyURI" />
+        </s:sequence>
+        <s:attribute name="code" type="s:string" />
+      </s:complexType>
+      <s:complexType name="FLAT_ARCHETYPE_ONTOLOGY">
+        <s:complexContent mixed="false">
+          <s:extension base="s2:ARCHETYPE_ONTOLOGY">
+            <s:attribute name="archetype_id" type="s:string" />
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="OPERATIONAL_TEMPLATE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="language" type="s2:CODE_PHRASE" />
+          <s:element minOccurs="0" maxOccurs="1" name="is_controlled" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s2:RESOURCE_DESCRIPTION" />
+          <s:element minOccurs="0" maxOccurs="1" name="revision_history" type="s2:ArrayOfREVISION_HISTORY_ITEM" />
+          <s:element minOccurs="0" maxOccurs="1" name="uid" type="s2:HIER_OBJECT_ID" />
+          <s:element minOccurs="0" maxOccurs="1" name="template_id" type="s2:TEMPLATE_ID" />
+          <s:element minOccurs="0" maxOccurs="1" name="concept" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="definition" type="s2:C_ARCHETYPE_ROOT" />
+          <s:element minOccurs="0" maxOccurs="1" name="ontology" type="s2:FLAT_ARCHETYPE_ONTOLOGY" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="component_ontologies" type="s2:FLAT_ARCHETYPE_ONTOLOGY" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="annotations" type="s2:ANNOTATION" />
+          <s:element minOccurs="0" maxOccurs="1" name="constraints" type="s2:ArrayOfT_ATTRIBUTE" />
+          <s:element minOccurs="0" maxOccurs="1" name="view" type="s2:ArrayOfT_VIEWConstraints" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ANNOTATION">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="items" type="s2:StringDictionaryAnyItem" />
+        </s:sequence>
+        <s:attribute name="path" type="s:string" />
+      </s:complexType>
+      <s:complexType name="StringDictionaryAnyItem" mixed="true">
+        <s:sequence>
+          <s:any minOccurs="0" maxOccurs="1" />
+        </s:sequence>
+        <s:attribute name="id" type="s:string" />
+      </s:complexType>
+      <s:complexType name="ArrayOfT_ATTRIBUTE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="attributes" type="s2:T_ATTRIBUTE" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="T_ATTRIBUTE">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="rm_attribute_name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="unbounded" name="children" type="s2:T_COMPLEX_OBJECT" />
+          <s:element minOccurs="0" maxOccurs="1" name="differential_path" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfT_VIEWConstraints">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="constraints">
+            <s:complexType>
+              <s:sequence>
+                <s:element minOccurs="0" maxOccurs="unbounded" name="items">
+                  <s:complexType>
+                    <s:sequence>
+                      <s:element minOccurs="0" maxOccurs="1" name="value" type="s:string" />
+                    </s:sequence>
+                    <s:attribute name="id" type="s:string" />
+                  </s:complexType>
+                </s:element>
+              </s:sequence>
+              <s:attribute name="path" type="s:string" />
+            </s:complexType>
+          </s:element>
+        </s:sequence>
+      </s:complexType>
+      <s:element name="template" type="s2:OPERATIONAL_TEMPLATE" />
+      <s:element name="archetype" type="s2:ARCHETYPE" />
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="BuildOperationalTemplateSoapIn">
+    <wsdl:part name="parameters" element="tns:BuildOperationalTemplate" />
+  </wsdl:message>
+  <wsdl:message name="BuildOperationalTemplateSoapOut">
+    <wsdl:part name="parameters" element="tns:BuildOperationalTemplateResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuildOperationalTemplateAdlSoapIn">
+    <wsdl:part name="parameters" element="tns:BuildOperationalTemplateAdl" />
+  </wsdl:message>
+  <wsdl:message name="BuildOperationalTemplateAdlSoapOut">
+    <wsdl:part name="parameters" element="tns:BuildOperationalTemplateAdlResponse" />
+  </wsdl:message>
+  <wsdl:message name="MD5HashFromAdlSoapIn">
+    <wsdl:part name="parameters" element="tns:MD5HashFromAdl" />
+  </wsdl:message>
+  <wsdl:message name="MD5HashFromAdlSoapOut">
+    <wsdl:part name="parameters" element="tns:MD5HashFromAdlResponse" />
+  </wsdl:message>
+  <wsdl:message name="MD5HashFromXmlArchetypeSoapIn">
+    <wsdl:part name="parameters" element="tns:MD5HashFromXmlArchetype" />
+  </wsdl:message>
+  <wsdl:message name="MD5HashFromXmlArchetypeSoapOut">
+    <wsdl:part name="parameters" element="tns:MD5HashFromXmlArchetypeResponse" />
+  </wsdl:message>
+  <wsdl:portType name="OperationalTemplateBuilderServiceSoap">
+    <wsdl:operation name="BuildOperationalTemplate">
+      <wsdl:input message="tns:BuildOperationalTemplateSoapIn" />
+      <wsdl:output message="tns:BuildOperationalTemplateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuildOperationalTemplateAdl">
+      <wsdl:input message="tns:BuildOperationalTemplateAdlSoapIn" />
+      <wsdl:output message="tns:BuildOperationalTemplateAdlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MD5HashFromAdl">
+      <wsdl:input message="tns:MD5HashFromAdlSoapIn" />
+      <wsdl:output message="tns:MD5HashFromAdlSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="MD5HashFromXmlArchetype">
+      <wsdl:input message="tns:MD5HashFromXmlArchetypeSoapIn" />
+      <wsdl:output message="tns:MD5HashFromXmlArchetypeSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OperationalTemplateBuilderServiceSoap" type="tns:OperationalTemplateBuilderServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuildOperationalTemplate">
+      <soap:operation soapAction="http://www.oceaninformatics.org/OPTWS/BuildOperationalTemplate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuildOperationalTemplateAdl">
+      <soap:operation soapAction="http://www.oceaninformatics.org/OPTWS/BuildOperationalTemplateAdl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MD5HashFromAdl">
+      <soap:operation soapAction="http://www.oceaninformatics.org/OPTWS/MD5HashFromAdl" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MD5HashFromXmlArchetype">
+      <soap:operation soapAction="http://www.oceaninformatics.org/OPTWS/MD5HashFromXmlArchetype" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="OperationalTemplateBuilderServiceSoap12" type="tns:OperationalTemplateBuilderServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="BuildOperationalTemplate">
+      <soap12:operation soapAction="http://www.oceaninformatics.org/OPTWS/BuildOperationalTemplate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuildOperationalTemplateAdl">
+      <soap12:operation soapAction="http://www.oceaninformatics.org/OPTWS/BuildOperationalTemplateAdl" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MD5HashFromAdl">
+      <soap12:operation soapAction="http://www.oceaninformatics.org/OPTWS/MD5HashFromAdl" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MD5HashFromXmlArchetype">
+      <soap12:operation soapAction="http://www.oceaninformatics.org/OPTWS/MD5HashFromXmlArchetype" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OperationalTemplateBuilderService">
+    <wsdl:port name="OperationalTemplateBuilderServiceSoap" binding="tns:OperationalTemplateBuilderServiceSoap">
+      <soap:address location="http://wsckcmapp01/OptWs/OperationalTemplateBuilderService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="OperationalTemplateBuilderServiceSoap12" binding="tns:OperationalTemplateBuilderServiceSoap12">
+      <soap12:address location="http://wsckcmapp01/OptWs/OperationalTemplateBuilderService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

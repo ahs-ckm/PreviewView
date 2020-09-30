@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PreviewView.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PreviewView_wsckcmapp01_OperationalTemplateBuilderService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://wsckcmapp01/OptWs/OperationalTemplateBuilderService.asmx</Value>
+    </Setting>
+    <Setting Name="OPTServiceUrl" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://wsckcmapp01/OptWs/OperationalTemplateBuilderService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
