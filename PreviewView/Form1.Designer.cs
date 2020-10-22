@@ -39,22 +39,24 @@
             this.Asset = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.button2 = new System.Windows.Forms.Button();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tslRepo = new System.Windows.Forms.ToolStripLabel();
+            this.tsbReload = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.tstbFilter = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsbViewDocument = new System.Windows.Forms.ToolStripButton();
+            this.tsbWord = new System.Windows.Forms.ToolStripButton();
             this.tspTime = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.tspStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tstbFilter = new System.Windows.Forms.ToolStripTextBox();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.tsbReload = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.tsbViewDocument = new System.Windows.Forms.ToolStripButton();
-            this.tsbWord = new System.Windows.Forms.ToolStripButton();
-            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.timerFilter = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -121,13 +123,13 @@
             this.splitContainer1.Panel2.Controls.Add(this.cbTransforms);
             this.splitContainer1.Panel2.Controls.Add(this.textBox2);
             this.splitContainer1.Panel2.Controls.Add(this.textBox1);
-            this.splitContainer1.Size = new System.Drawing.Size(1267, 605);
+            this.splitContainer1.Size = new System.Drawing.Size(1267, 460);
             this.splitContainer1.SplitterDistance = 436;
             this.splitContainer1.TabIndex = 14;
             // 
             // listView1
             // 
-            this.listView1.Activation = System.Windows.Forms.ItemActivation.TwoClick;
+            this.listView1.Activation = System.Windows.Forms.ItemActivation.OneClick;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Asset});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -135,20 +137,21 @@
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
+            this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.MultiSelect = false;
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(436, 605);
+            this.listView1.Size = new System.Drawing.Size(436, 460);
             this.listView1.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView1.TabIndex = 14;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
-            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged_1);
             // 
             // Asset
             // 
             this.Asset.Text = "Asset";
-            this.Asset.Width = 420;
+            this.Asset.Width = 25;
             // 
             // button2
             // 
@@ -166,29 +169,29 @@
             this.webBrowser1.Location = new System.Drawing.Point(0, 0);
             this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(827, 605);
+            this.webBrowser1.Size = new System.Drawing.Size(827, 460);
             this.webBrowser1.TabIndex = 4;
             this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox1.Location = new System.Drawing.Point(612, 449);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(244, 52);
-            this.textBox1.TabIndex = 15;
-            this.textBox1.Visible = false;
             // 
             // textBox2
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.textBox2.Location = new System.Drawing.Point(571, 432);
+            this.textBox2.Location = new System.Drawing.Point(571, 287);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(244, 52);
             this.textBox2.TabIndex = 16;
             this.textBox2.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textBox1.Location = new System.Drawing.Point(612, 304);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(244, 52);
+            this.textBox1.TabIndex = 15;
+            this.textBox1.Visible = false;
             // 
             // toolStrip1
             // 
@@ -203,7 +206,8 @@
             this.toolStripSeparator2,
             this.tsbViewDocument,
             this.tsbWord,
-            this.tspTime});
+            this.tspTime,
+            this.toolStripProgressBar1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1294, 55);
@@ -217,52 +221,6 @@
             this.tslRepo.Size = new System.Drawing.Size(186, 52);
             this.tslRepo.Text = "<no repository>";
             // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 55);
-            // 
-            // tspTime
-            // 
-            this.tspTime.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.tspTime.Name = "tspTime";
-            this.tspTime.Size = new System.Drawing.Size(0, 52);
-            // 
-            // timer1
-            // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 60000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tspStatusLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 684);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1294, 22);
-            this.statusStrip1.TabIndex = 20;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // tspStatusLabel
-            // 
-            this.tspStatusLabel.Name = "tspStatusLabel";
-            this.tspStatusLabel.Size = new System.Drawing.Size(0, 17);
-            // 
-            // tstbFilter
-            // 
-            this.tstbFilter.AutoSize = false;
-            this.tstbFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.tstbFilter.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tstbFilter.Name = "tstbFilter";
-            this.tstbFilter.Size = new System.Drawing.Size(200, 33);
-            this.tstbFilter.TextChanged += new System.EventHandler(this.tstbFilter_TextChanged);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 55);
-            // 
             // tsbReload
             // 
             this.tsbReload.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -273,6 +231,27 @@
             this.tsbReload.Text = "Reload Available Assets";
             this.tsbReload.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 55);
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(33, 52);
+            this.toolStripLabel1.Text = "Filter";
+            // 
+            // tstbFilter
+            // 
+            this.tstbFilter.AutoSize = false;
+            this.tstbFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tstbFilter.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tstbFilter.Name = "tstbFilter";
+            this.tstbFilter.Size = new System.Drawing.Size(200, 33);
+            this.tstbFilter.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tstbFilter_KeyDown);
+            this.tstbFilter.TextChanged += new System.EventHandler(this.tstbFilter_TextChanged);
+            // 
             // toolStripButton1
             // 
             this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -281,7 +260,12 @@
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(52, 52);
             this.toolStripButton1.Text = "Clear Filter";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click_4);
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 55);
             // 
             // tsbViewDocument
             // 
@@ -304,17 +288,52 @@
             this.tsbWord.Text = "Open In Word";
             this.tsbWord.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
-            // toolStripLabel1
+            // tspTime
             // 
-            this.toolStripLabel1.Name = "toolStripLabel1";
-            this.toolStripLabel1.Size = new System.Drawing.Size(33, 52);
-            this.toolStripLabel1.Text = "Filter";
+            this.tspTime.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.tspTime.Name = "tspTime";
+            this.tspTime.Size = new System.Drawing.Size(0, 52);
+            // 
+            // toolStripProgressBar1
+            // 
+            this.toolStripProgressBar1.Maximum = 4;
+            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
+            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 52);
+            this.toolStripProgressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.toolStripProgressBar1.ToolTipText = "Transform Progress";
+            this.toolStripProgressBar1.Visible = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Enabled = true;
+            this.timer1.Interval = 60000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tspStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 539);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1294, 22);
+            this.statusStrip1.TabIndex = 20;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // tspStatusLabel
+            // 
+            this.tspStatusLabel.Name = "tspStatusLabel";
+            this.tspStatusLabel.Size = new System.Drawing.Size(0, 17);
+            // 
+            // timerFilter
+            // 
+            this.timerFilter.Interval = 1000;
+            this.timerFilter.Tick += new System.EventHandler(this.timerFilter_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1294, 706);
+            this.ClientSize = new System.Drawing.Size(1294, 561);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.splitContainer1);
@@ -324,6 +343,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "DAM Preview - vDraft";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -365,6 +385,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
+        private System.Windows.Forms.Timer timerFilter;
     }
 }
 

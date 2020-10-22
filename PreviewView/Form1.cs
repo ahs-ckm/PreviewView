@@ -16,6 +16,7 @@ using Microsoft.Office.Interop.Word;
 using System.IO.Compression;
 using System.Configuration;
 using System.Xml.Serialization;
+using net.sf.saxon.trans.rules;
 
 namespace PreviewView
 {
@@ -60,8 +61,9 @@ namespace PreviewView
             if (SetCurrentRepo() != "")
             //if (true)
             {
+                //listView1.SelectedIndexChanged += listView1_SelectedIndexChanged();
                 var appsettings = ConfigurationManager.AppSettings;
-                listView1.LostFocus += (s, e) => listView1.SelectedIndices.Clear();
+                //listView1.LostFocus += (s, e) => listView1.SelectedIndices.Clear();
                 AppSettingsSection settings = (AppSettingsSection)ConfigurationManager.GetSection("PreviewView.Properties.Settings");
 
                 m_masterlist = new List<ListViewItem>();
@@ -177,7 +179,11 @@ namespace PreviewView
             {
                 if (!sArchetypeXML.Contains(sArchID))
                 {
-                    sTempXML = File.ReadAllText(@"C:\temp\ArchetypeXML\" + sArchID + ".xml");
+                    //sTempXML = File.ReadAllText(@"C:\temp\ArchetypeXML\" + sArchID + ".xml");
+                    sTempXML = File.ReadAllText(m_RepoPath + @"\ArchetypeXML\" + sArchID + ".xml");
+
+                    
+
                     sTempXML = sTempXML.Replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>", "");
                     sTempXML = sTempXML.Replace("<archetype xmlns=\"http://schemas.openehr.org/v1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">", "");
                     sTempXML = "<opt:ARCHETYPE xmlns=\"http://schemas.openehr.org/v1\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:opt=\"http://www.oceaninformatics.org/OPTWS\">" + sTempXML;
@@ -358,6 +364,7 @@ namespace PreviewView
                 catch { }
                 
             }
+            listView1.Columns[0].Width = -1;
         }
 
 
@@ -472,15 +479,26 @@ namespace PreviewView
         {
           //  if (tscbTransforms.Text == "") return;
             Cursor.Current = Cursors.WaitCursor;
-            string sSelectedTransform = m_RepoPath + @"\XSLT\OrderItem.xsl";
             m_currentDocument = sTemplateName;
 
-            if (  sTemplateName.EndsWith("Panel", StringComparison.OrdinalIgnoreCase ) ||
-                 sTemplateName.EndsWith("Set", StringComparison.OrdinalIgnoreCase) ||
-                 sTemplateName.EndsWith("Group", StringComparison.OrdinalIgnoreCase ) ) {
+            /*            string sSelectedTransform = m_RepoPath + @"\XSLT\OrderItem.xsl";
+            
+             *            if (  sTemplateName.TrimEnd().EndsWith("Panel", StringComparison.OrdinalIgnoreCase ) ||
+                             sTemplateName.TrimEnd().EndsWith("Set", StringComparison.OrdinalIgnoreCase) ||
+                             sTemplateName.TrimEnd().EndsWith("Group", StringComparison.OrdinalIgnoreCase ) ) {
 
-                sSelectedTransform = m_RepoPath+ @"\XSLT\OrderSet.xsl";
+                            sSelectedTransform = m_RepoPath+ @"\XSLT\OrderSet.xsl";
+                        }
+            */
+            string sSelectedTransform = m_RepoPath + @"\XSLT\OrderSet.xsl";
+
+
+            if (sTemplateName.TrimEnd().EndsWith("Order", StringComparison.OrdinalIgnoreCase) )
+            {
+
+                sSelectedTransform = m_RepoPath + @"\XSLT\OrderItem.xsl";
             }
+            
 
             try
             {
@@ -511,22 +529,38 @@ namespace PreviewView
                     File.Delete(@"c:\temp\generated.xml");
                 }
 
-                //webBrowser1.Url = new Uri(@"C:\TD\Blank.html");
-
                 HttpWebRequest wr = CreateSOAPWebRequest();
                 XmlDocument SOAPReqBody = new XmlDocument();
+                String optContents = "";
 
                 try
                 {
-                    SOAPReqBody.LoadXml(BuildSOAPRequest2(sTemplateName));
+                    toolStripProgressBar1.Step = 1;
+                    toolStripProgressBar1.Value = 0;
+                    toolStripProgressBar1.Minimum = 0;
+                    toolStripProgressBar1.Maximum = 5;
+                    toolStripProgressBar1.Visible = true;
+
+                    toolStripProgressBar1.PerformStep();
+
+                    tspStatusLabel.Text = "Transforming " + m_currentDocument + ": Building SOAP Request...";
+                    System.Windows.Forms.Application.DoEvents();
+
+                    string sSOAPRequest = BuildSOAPRequest2(sTemplateName);
+                    toolStripProgressBar1.PerformStep();
+                    System.Windows.Forms.Application.DoEvents();
+
+                    SOAPReqBody.LoadXml( sSOAPRequest);
+                    //File.WriteAllText(@"C:\temp\SOAPRequest.xml", sSOAPRequest);
 
                     using (Stream stream = wr.GetRequestStream())
                     {
                         SOAPReqBody.Save(stream);
                     }
 
-                    tspStatusLabel.Text = "Transforming " + m_currentDocument +": Requesting OPT document...";
-                    //System.Windows.Forms.Application.DoEvents();
+                    tspStatusLabel.Text = "Transforming " + m_currentDocument +": Requesting OPT document..." + "( " + (System.Text.ASCIIEncoding.ASCII.GetByteCount(sSOAPRequest) / 1024).ToString() + "KB )" ;
+                    toolStripProgressBar1.PerformStep();
+                    System.Windows.Forms.Application.DoEvents();
 
                     using (WebResponse Serviceres = wr.GetResponse())
                     {
@@ -536,7 +570,7 @@ namespace PreviewView
                             //reading stream
                             var ServiceResult = rd.ReadToEnd();
 
-                            String optContents = "";
+                            //String optContents = "";
 
                             optContents = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
                             Date now = new Date();
@@ -550,8 +584,8 @@ namespace PreviewView
                             int pTo = ServiceResult.LastIndexOf(end);
 
                             optContents += ServiceResult.Substring(pFrom, pTo - pFrom);
-                            textBox1.Text = optContents;
-                            System.IO.File.WriteAllText(@"c:\temp\generated.xml", optContents);
+                            //textBox1.Text = optContents;
+                            //System.IO.File.WriteAllText(@"c:\temp\generated.xml", optContents);
 
                         }
                     }
@@ -576,33 +610,36 @@ namespace PreviewView
                         Console.WriteLine((int)httpResponse.StatusCode + " - "
                            + httpResponse.StatusCode);
                     }
+
+                    throw webExcp;
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Generic Exception Handler: {ex}");
-                    //throw ex;F
+                    throw ex;
                 }
 
-                if (!File.Exists(@"c:\temp\generated.xml"))
-                {
-                    return;
-                }
-                //var xmlData = File.ReadAllText(@"c:\temp\generated.xml");
-                //var xslData = File.ReadAllText(@"c:\temp\OrderItem.xsl");
-
-                //var data = TransformXml(xmlData, xslData);
-                //Console.WriteLine(data);
-                //Console.ReadKey();
-
-                var oldDocument = XDocument.Load(@"c:\temp\generated.xml");
-
+                
+                toolStripProgressBar1.PerformStep();
                 tspStatusLabel.Text = "Transforming " + m_currentDocument + ": Generating Final Document...";
-                //System.Windows.Forms.Application.DoEvents();
+                System.Windows.Forms.Application.DoEvents();
 
                 var newDocument = new XDocument();
 
                 Processor processor = new Processor(false);
-                XdmNode input = processor.NewDocumentBuilder().Build(new Uri(@"c:\temp\generated.xml"));
+
+                //Stream XML = GenerateStreamFromString(optContents);
+
+                TextReader sr = new StringReader(optContents);
+
+                DocumentBuilder db = processor.NewDocumentBuilder();
+                db.BaseUri = new Uri(@"http://blank.org/");
+                XdmNode input = db.Build(sr);
+
+
+                //XdmNode input = processor.NewDocumentBuilder().Build(sr);
+
+                //XdmNode input = processor.NewDocumentBuilder().Build(new Uri(@"c:\temp\generated.xml"));
                 XsltTransformer transformer = processor.NewXsltCompiler().Compile(new Uri(sSelectedTransform)).Load();
                 transformer.InitialContextNode = input;
 
@@ -617,6 +654,10 @@ namespace PreviewView
 
                 webBrowser1.Url = new Uri(sTempHTML);
 
+
+                toolStripProgressBar1.PerformStep();
+                System.Windows.Forms.Application.DoEvents();
+
             }
             finally
             {
@@ -626,7 +667,15 @@ namespace PreviewView
 
         }
 
-
+        public static Stream GenerateStreamFromString(string s)
+        {
+            var stream = new MemoryStream();
+            var writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -651,6 +700,8 @@ namespace PreviewView
             Cursor.Current = Cursors.Default;
 
             tspStatusLabel.Text = "Viewing " + m_currentDocument;
+
+            toolStripProgressBar1.Visible = false;
 
         }
 
@@ -685,13 +736,10 @@ namespace PreviewView
             
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            TransformSelectedTemplate();
-        }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            listView1.SelectedItems.Clear();
             LoadTemplates();
         }
 
@@ -756,6 +804,9 @@ namespace PreviewView
             string ConfigFile = "";
             string TicketDir = "";
             ConfigFile = GetTDConfig();
+
+           // MessageBox.Show("TD Config file :" + ConfigFile);
+
             if (ConfigFile != "")
             {
                 XmlDocument TDConfigDoc = new XmlDocument();
@@ -884,12 +935,45 @@ namespace PreviewView
 
         private void tstbFilter_TextChanged(object sender, EventArgs e)
         {
+            timerFilter.Enabled = true;
+            //DisplayTemplates();
+        }
+
+        private void listView1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if( listView1.SelectedItems.Count > 0 )
+            {
+                TransformSelectedTemplate();
+            }
+        }
+
+        private void timerFilter_Tick(object sender, EventArgs e)
+        {
+            timerFilter.Enabled = false;
             DisplayTemplates();
         }
 
-        private void toolStripButton1_Click_4(object sender, EventArgs e)
+        private void tstbFilter_KeyDown(object sender, KeyEventArgs e)
         {
-            tstbFilter.Text = "";
+            timerFilter.Enabled = false;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            WindowState = FormWindowState.Minimized;
+            return;
+        }
+
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
         }
     }
 }
